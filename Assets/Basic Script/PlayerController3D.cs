@@ -29,7 +29,7 @@ public class PlayerController3D : MonoBehaviour
 
 
         float _horizontal = Input.GetAxis("Mouse X");
-
+        Debug.Log(_horizontal);
         Vector3 _transformAngles = transform.eulerAngles;
         _transformAngles.y += _horizontal * m_RotateSpeed;
         transform.eulerAngles = _transformAngles;
