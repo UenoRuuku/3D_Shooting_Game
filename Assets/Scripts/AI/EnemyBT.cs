@@ -16,14 +16,15 @@ public class EnemyBT : BehaviorTree.Tree
 
     protected override void SetupTree()
     {
-        Node root = new Selector(new List<Node>
-        {   
-            new Sequence(new List<Node>
-            {
-                new CheckPlayerInFOVRange(transform),
-                new TaskGoToTarget(transform),
-            })
-        });
+        Node root = new Selector(//new List<Node>
+        //{   
+            //new Sequence(new List<Node>
+            //{
+                //new CheckPlayerInFOVRange(transform),
+                //new TaskGoToTarget(transform),
+            //})
+        //}
+        );
 
         root.SetData("Weapon", weapon);
         root.SetData("FovRange", fovRange);
