@@ -23,13 +23,11 @@ public class TaskFire : Node
         }
         else
         {
-            //_transform.GetComponent<Shotgun>().Shoot(); Vector2 需改成V3
-
+            //_transform.GetComponent<Shotgun>().Shoot(new Vector2(_transform.forward.x, _transform.forward.z));
             _transform.GetComponent<Shotgun>().currentAmmo -= 1;
 
             Debug.Log("射爆!,剩余子弹：" + _transform.GetComponent<Shotgun>().currentAmmo);
         }
-
         // TODO Delete Debug.Log
         return NodeState.SUCCESS;
     }

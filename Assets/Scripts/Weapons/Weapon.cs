@@ -29,7 +29,7 @@ public abstract class Weapon : MonoBehaviour
     {
         if (isReloading) return;
 
-        if (ownerPlayer && Input.GetKeyDown(KeyCode.R))
+        if (currentAmmo<=0)
         {
             Reload();
             return;

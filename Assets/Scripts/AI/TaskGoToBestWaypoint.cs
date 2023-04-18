@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviorTree;
+using UnityEngine.AI;
 
 public class TaskGoToBestWaypoint : Node
 {
@@ -17,19 +18,26 @@ public class TaskGoToBestWaypoint : Node
 
     public override NodeState Evaluate()
     {
+        NavMeshAgent agent = _transform.GetComponent<NavMeshAgent>();
         Transform bestWaypoint = (Transform)GetData("BestWaypoint");
 
-        if (Vector3.Distance(_transform.position, bestWaypoint.position) > 0.01f)
+        if (Vector3.Distance(_transform.position, bestWaypoint.position) > 1f)
         {
-            _transform.position = Vector3.MoveTowards(
-                _transform.position, bestWaypoint.position, (float)GetData("Speed") * Time.deltaTime);
+            //_transform.position = Vector3.MoveTowards(_transform.position, bestWaypoint.position, (float)GetData("Speed") * Time.deltaTime);
+            agent.SetDestination(bestWaypoint.position);
             _transform.LookAt(bestWaypoint.position);
 
             // TODO Delete Debug.Log
-            Debug.Log("AI…–Œ¥µΩ¥Ô◊Óº—Œª÷√" + bestWaypoint.gameObject.name + ": " + GetData("BestScore"));
+            Debug.Log(Vector3.Distance(_transform.position, bestWaypoint.position));
+            Debug.Log("AIÂ∞öÊú™Âà∞ËææÊúÄ‰Ω≥‰ΩçÁΩÆ" + bestWaypoint.gameObject.name + ": " + GetData("BestScore"));
         }
         else
         {
+            Vector3 currentRotation = _transform.rotation.eulerAngles;
+            currentRotation.x = 0f;
+            _transform.rotation = Quaternion.Euler(currentRotation);
+
+            _transform.LookAt(GameManager.instance.player);
             return NodeState.FAILURE;
         }
         return NodeState.RUNNING;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviorTree;
+using UnityEngine.AI;
 
 public class TaskPatrol : Node
 {
@@ -16,6 +17,7 @@ public class TaskPatrol : Node
     private float _waitCounter = 0f;
     private bool _waiting = false;
 
+   
     public TaskPatrol(Transform transform, Transform[] patrolWaypoints)
     {
         _transform = transform;
@@ -25,6 +27,8 @@ public class TaskPatrol : Node
 
     public override NodeState Evaluate()
     {
+        NavMeshAgent agent = _transform.GetComponent<NavMeshAgent>();
+
         if (_waiting)
         {
             _waitCounter += Time.deltaTime;
@@ -37,8 +41,13 @@ public class TaskPatrol : Node
         else
         {
             Transform wp = _patrolWaypoints[_currentWaypointIndex];
-            if (Vector3.Distance(_transform.position, wp.position) < 0.01f)
+            if (Vector3.Distance(_transform.position, wp.position) < 1f)
             {
+                Vector3 currentRotation = _transform.rotation.eulerAngles;
+                currentRotation.x = 0f;
+                _transform.rotation = Quaternion.Euler(currentRotation);
+
+                _transform.LookAt(GameManager.instance.player);
                 _transform.position = wp.position;
                 _waitCounter = 0f;
                 _waiting = true;
@@ -48,7 +57,8 @@ public class TaskPatrol : Node
             }
             else
             {
-                _transform.position = Vector3.MoveTowards(_transform.position, wp.position, (float)GetData("Speed") * Time.deltaTime);
+                agent.SetDestination(wp.position);
+                //_transform.position = Vector3.MoveTowards(_transform.position, wp.position, (float)GetData("Speed") * Time.deltaTime);
                 _transform.LookAt(wp.position);
             }
         }
