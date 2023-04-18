@@ -3,32 +3,30 @@ using UnityEngine;
 
 using BehaviorTree;
 
-public class EnemyBT : BehaviorTree.Tree
+public class EnemyController : BehaviorTree.Tree
 {
     public Weapon weapon;
 
-    public float fovRange = 10f;
+    public float alertRange = 10f;
+    public float fovRadius = 10f;
 
-    public float speed = 2f;
+    public float waypointRange = 20f;
+    public float speed = 1f;
 
     [Range(0, 1)]
     public float aggression = .5f;
 
+    public Transform[] patrolWaypoints;
+
     protected override void SetupTree()
     {
-        Node root = new Selector(//new List<Node>
-        //{   
-            //new Sequence(new List<Node>
-            //{
-                //new CheckPlayerInFOVRange(transform),
-                //new TaskGoToTarget(transform),
-            //})
-        //}
-        );
+        Node root = new Node();
 
         root.SetData("Weapon", weapon);
-        root.SetData("FovRange", fovRange);
+        root.SetData("AlertRange", alertRange);
+        root.SetData("FOVRadius", fovRadius);
         root.SetData("Waypoints", GameManager.instance.waypoints);
+        root.SetData("WaypointRange", waypointRange);
         root.SetData("Speed", speed);
         root.SetData("Aggression", aggression);
 

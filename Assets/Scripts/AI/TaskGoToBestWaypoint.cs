@@ -12,11 +12,21 @@ public class TaskGoToBestWaypoint : Node
     public TaskGoToBestWaypoint(Transform transform)
     {
         _transform = transform;
-        _animator = transform.GetComponent<Animator>();
+        //_animator = transform.GetComponent<Animator>();
     }
 
     public override NodeState Evaluate()
     {
-        return NodeState.SUCCESS;
+        Transform bestWaypoint = (Transform)GetData("BestWaypoint");
+
+        if (Vector3.Distance(_transform.position, bestWaypoint.position) > 0.01f)
+        {
+            _transform.position = Vector3.MoveTowards(
+                _transform.position, bestWaypoint.position, (float)GetData("Speed") * Time.deltaTime);
+            _transform.LookAt(bestWaypoint.position);
+        }
+
+        state = NodeState.RUNNING;
+        return state;
     }
 }
