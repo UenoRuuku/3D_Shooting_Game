@@ -29,9 +29,9 @@ public abstract class Weapon : MonoBehaviour
     {
         if (isReloading) return;
 
-        if (currentAmmo <= 0)
+        if (ownerPlayer && Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(Reload());
+            Reload();
             return;
         }
 
@@ -45,8 +45,11 @@ public abstract class Weapon : MonoBehaviour
             Shoot(fireDirection);
         }
     }
-
-    private IEnumerator Reload()
+    public void Reload()
+    {
+        StartCoroutine(ReloadIE());
+    }
+    private IEnumerator ReloadIE()
     {
         isReloading = true;
         yield return new WaitForSeconds(reloadTime);

@@ -11,13 +11,26 @@ public class TaskFire : Node
     public TaskFire(Transform transform)
     {
         _transform = transform;
+        
         //_animator = transform.GetComponent<Animator>();
     }
 
     public override NodeState Evaluate()
     {
+        if ((_transform.GetComponent<Shotgun>().currentAmmo <= 0) || (_transform.GetComponent<Character>().GetCurrentHealth() < 30))
+        {
+            _transform.GetComponent<Character>().ChangeToReload();
+        }
+        else
+        {
+            //_transform.GetComponent<Shotgun>().Shoot(); Vector2 Ðè¸Ä³ÉV3
+
+            _transform.GetComponent<Shotgun>().currentAmmo -= 1;
+
+            Debug.Log("Éä±¬!,Ê£Óà×Óµ¯£º" + _transform.GetComponent<Shotgun>().currentAmmo);
+        }
+
         // TODO Delete Debug.Log
-        Debug.Log("Éä±¬");
         return NodeState.SUCCESS;
     }
 }

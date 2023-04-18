@@ -22,7 +22,7 @@ public class EnemyController : BehaviorTree.Tree
     {
         Node root = new Selector(new List<Node>
         {
-            new ForceFailure(new List<Node>
+            new Sequence(new List<Node>
             {
                 new CheckBestWaypoint(transform),
                 new TaskGoToBestWaypoint(transform)

@@ -28,6 +28,10 @@ public class TaskGoToBestWaypoint : Node
             // TODO Delete Debug.Log
             Debug.Log("AI尚未到达最佳位置" + bestWaypoint.gameObject.name + ": " + GetData("BestScore"));
         }
+        else
+        {
+            return NodeState.FAILURE;
+        }
         return NodeState.RUNNING;
     }
 }

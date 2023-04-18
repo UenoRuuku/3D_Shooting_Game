@@ -6,7 +6,10 @@ public class Shotgun : Weapon
     public int pelletsPerShot = 5;
     public float spreadAngle = 45f;
     public BulletPool.BulletType bulletType = BulletPool.BulletType.ShotgunPellet;
-
+    private void Start()
+    {
+        currentAmmo = maxAmmo;
+    }
     public override void Shoot(Vector2 direction)
     {
         if (currentAmmo <= 0) return;
