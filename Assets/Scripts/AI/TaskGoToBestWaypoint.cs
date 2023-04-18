@@ -24,9 +24,10 @@ public class TaskGoToBestWaypoint : Node
             _transform.position = Vector3.MoveTowards(
                 _transform.position, bestWaypoint.position, (float)GetData("Speed") * Time.deltaTime);
             _transform.LookAt(bestWaypoint.position);
-        }
 
-        state = NodeState.RUNNING;
-        return state;
+            // TODO Delete Debug.Log
+            Debug.Log("AI尚未到达最佳位置" + bestWaypoint.gameObject.name + ": " + GetData("BestScore"));
+        }
+        return NodeState.RUNNING;
     }
 }

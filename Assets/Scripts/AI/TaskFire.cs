@@ -1,18 +1,23 @@
+using BehaviorTree;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TaskFire : MonoBehaviour
+public class TaskFire : Node
 {
-    // Start is called before the first frame update
-    void Start()
+    private Transform _transform;
+    private Animator _animator;
+
+    public TaskFire(Transform transform)
     {
-        
+        _transform = transform;
+        //_animator = transform.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override NodeState Evaluate()
     {
-        
+        // TODO Delete Debug.Log
+        Debug.Log("…‰±¨");
+        return NodeState.SUCCESS;
     }
 }

@@ -20,7 +20,20 @@ public class EnemyController : BehaviorTree.Tree
 
     protected override void SetupTree()
     {
-        Node root = new Node();
+        Node root = new Selector(new List<Node>
+        {
+            new ForceFailure(new List<Node>
+            {
+                new CheckBestWaypoint(transform),
+                new TaskGoToBestWaypoint(transform)
+            }),
+            new Sequence(new List<Node>
+            {
+                new CheckPlayer(transform),
+                new TaskFire(transform)
+            }),
+            new TaskPatrol(transform, patrolWaypoints)
+        });
 
         root.SetData("Weapon", weapon);
         root.SetData("AlertRange", alertRange);

@@ -30,10 +30,17 @@ public class CheckPlayer : Node
         if (colliders.Length > 0 || 
             Physics.SphereCast(ray, (float)GetData("FOVRadius"), Mathf.Infinity, _playerLayerMask)) {
             _transform.LookAt(GameManager.instance.player);
+
+            // TODO Delete Debug.Log
+            Debug.Log("发现Player");
+
             return NodeState.SUCCESS;
         }
         else
         {
+            // TODO Delete Debug.Log
+            Debug.Log("尚未发现Player");
+
             return NodeState.FAILURE;
         }
     }
