@@ -31,9 +31,9 @@ public class TaskFire : Node
             //_transform.GetComponent<Shotgun>().Shoot(new Vector2(_transform.forward.x, _transform.forward.z));
             CurrentW.currentAmmo -= 1;
 
-            Debug.Log("Current Ammon: " + _transform.GetComponent<Shotgun>().currentAmmo);
+            Debug.Log("AI Shoot");// + _transform.GetComponent<Shotgun>().currentAmmo);
         }
-        // TODO Delete Debug.Log
+        // TODO Delete Debug.Log1
         return NodeState.SUCCESS;
     }
 }
