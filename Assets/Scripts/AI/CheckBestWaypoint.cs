@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviorTree;
+using UnityEngine.SocialPlatforms.Impl;
 
 // 更新最佳位置
 public class CheckBestWaypoint : Node
@@ -18,14 +19,13 @@ public class CheckBestWaypoint : Node
 
     public override NodeState Evaluate()
     {
-        return Check() ? NodeState.SUCCESS : NodeState.FAILURE;
+        Check();
+        return NodeState.SUCCESS;
     }
 
-    bool Check()
+    void Check()
     {
-        bool bestWaypointChange = false;
-
-        float bestScore = GetData("BestScore") == null ? 0 : (float)GetData("BestScore");
+        float bestScore = 0;
 
         Weapon weapon = (Weapon)GetData("Weapon");
         float aggression = (float)GetData("Aggression");
@@ -34,19 +34,20 @@ public class CheckBestWaypoint : Node
             if (Vector3.Distance(waypoint.position, _transform.position) < (float)GetData("WaypointRange"))
             {
                 float offensiveScore = 10 / Mathf.Abs(weapon.bestFireDistance - Vector3.Distance(waypoint.position, GameManager.instance.player.position));
-                // TODO 血量低则defensiveScore高
+                // TODO 血量低则defensiveScore高，且需要Clamp吗？
                 float defensiveScore = 0;
                 float score = offensiveScore * aggression + defensiveScore * (1 - aggression);
+
+                // TODO Delete Debug.Log
+                //Debug.Log(waypoint.gameObject.name + ": " + score);
+
                 if (score > bestScore)
                 {
                     bestScore = score;
                     parent.parent.SetData("BestWaypoint", waypoint);
                     parent.parent.SetData("BestScore", score);
-                    bestWaypointChange = true;
                 }
             }
         }
-
-        return bestWaypointChange;
     }
 }
