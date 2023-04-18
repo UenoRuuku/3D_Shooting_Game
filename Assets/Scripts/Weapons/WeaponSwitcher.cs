@@ -4,23 +4,25 @@ using UnityEngine;
 public class WeaponSwitcher : MonoBehaviour
 {
     private int currentWeaponIndex = 0;
-    private List<Weapon> weapons;
+    public List<Weapon> weapons;
+
+    public bool isPlayer = true;
 
     void Start()
     {
-        weapons = new List<Weapon>(GetComponentsInChildren<Weapon>());
+        //weapons = new List<Weapon>(GetComponentsInChildren<Weapon>());
         ActivateCurrentWeapon();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (isPlayer && Input.GetKeyDown(KeyCode.Q))
         {
             SwitchWeapon();
         }
     }
 
-    void SwitchWeapon()
+    public void SwitchWeapon()
     {
         currentWeaponIndex++;
         if (currentWeaponIndex >= weapons.Count)
@@ -30,6 +32,10 @@ public class WeaponSwitcher : MonoBehaviour
         ActivateCurrentWeapon();
     }
 
+    public Weapon GetCurrentWeapon(){
+        return weapons[currentWeaponIndex];
+    }
+
     void ActivateCurrentWeapon()
     {
         for (int i = 0; i < weapons.Count; i++)
@@ -37,4 +43,5 @@ public class WeaponSwitcher : MonoBehaviour
             weapons[i].gameObject.SetActive(i == currentWeaponIndex);
         }
     }
+
 }

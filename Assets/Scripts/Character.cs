@@ -5,6 +5,8 @@ public class Character : MonoBehaviour
     [SerializeField] protected int maxHealth;
     [SerializeField] protected float currentHealth;
     private bool FireOrNot = true;
+
+    public bool isPlayer = true;
     protected virtual void Start()
     {
         currentHealth = maxHealth;
@@ -20,6 +22,9 @@ public class Character : MonoBehaviour
                 currentHealth = maxHealth;
 
             //Reload
+        }
+        if(isPlayer){
+            UIUpdate.Instance.updatehealth(currentHealth);
         }
     }
     public virtual void TakeDamage(float damage)

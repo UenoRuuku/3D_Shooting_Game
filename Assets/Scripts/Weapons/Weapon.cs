@@ -15,6 +15,12 @@ public abstract class Weapon : MonoBehaviour
     protected float nextFireTime = 0f;
 
     public bool ownerPlayer = true;
+
+    public bool isAutomatic = false;
+
+    public bool isOwnedByPlayer = true;
+
+    public Vector3 aiShootDir;
     bool aiShoot = false;
 
     public float bestFireDistance;
@@ -29,21 +35,25 @@ public abstract class Weapon : MonoBehaviour
     {
         if (isReloading) return;
 
-        if (currentAmmo<=0)
+        if (currentAmmo <= 0)
         {
             Reload();
             return;
         }
+        float timeSinceLastShot = 0f;
 
-        float timeSinceLastShot = Time.time - nextFireTime;
+        timeSinceLastShot = Time.time - nextFireTime;
 
-        if ((ownerPlayer && Input.GetMouseButton(0)) || (!ownerPlayer && aiShoot) && timeSinceLastShot >= 1f / fireRate)
+        if (((ownerPlayer && Input.GetMouseButton(0)) || (!ownerPlayer && aiShoot)) && timeSinceLastShot >= 1f / fireRate)
         {
             nextFireTime = Time.time;
             Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
             Vector2 fireDirection = (mousePosition - (Vector2)firePoint.position).normalized;
             Shoot(fireDirection);
         }
+
+        UIUpdate.Instance.updateammo(currentAmmo);
+        UIUpdate.Instance.updatereloading(reloadTime);
     }
     public void Reload()
     {
@@ -59,8 +69,10 @@ public abstract class Weapon : MonoBehaviour
 
     public abstract void Shoot(Vector2 direction);
 
-    public void AiShootCommand(bool shoot){
-        if(ownerPlayer){
+    public void AiShootCommand(bool shoot)
+    {
+        if (ownerPlayer)
+        {
             return;
         }
 

@@ -21,6 +21,26 @@ public class AssaultRifle : Weapon
         bullet.transform.rotation = bulletRotation;
 
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.velocity = bullet.transform.up * shootForce;
+
+        if (isOwnedByPlayer)
+        {
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+
+            float rayDistance;
+
+            Vector3 point = Vector3.zero;
+            if (groundPlane.Raycast(ray, out rayDistance))
+            {
+                point = ray.GetPoint(rayDistance);
+
+            }
+            Vector3 heightCorrectedPoint = new Vector3(point.x, transform.position.y, point.z);
+
+            bulletRb.velocity = (heightCorrectedPoint - firePoint.position) * shootForce;
+        }else{
+            
+        }
     }
 }

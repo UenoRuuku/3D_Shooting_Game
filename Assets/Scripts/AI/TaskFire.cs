@@ -8,25 +8,30 @@ public class TaskFire : Node
     private Transform _transform;
     private Animator _animator;
 
+    private Weapon CurrentW;
+
     public TaskFire(Transform transform)
     {
         _transform = transform;
-        
+        WeaponSwitcher w = _transform.GetComponent<WeaponSwitcher>();
+        CurrentW = w.GetCurrentWeapon();
+        CurrentW.aiShootDir = - _transform.position + GameObject.FindGameObjectWithTag("Player").transform.position;
+        CurrentW.AiShootCommand(true);
         //_animator = transform.GetComponent<Animator>();
     }
 
     public override NodeState Evaluate()
     {
-        if ((_transform.GetComponent<Shotgun>().currentAmmo <= 0) || (_transform.GetComponent<Character>().GetCurrentHealth() < 30))
+        if ((CurrentW.currentAmmo <= 0) || (_transform.GetComponent<Character>().GetCurrentHealth() < 30))
         {
             _transform.GetComponent<Character>().ChangeToReload();
         }
         else
         {
             //_transform.GetComponent<Shotgun>().Shoot(new Vector2(_transform.forward.x, _transform.forward.z));
-            _transform.GetComponent<Shotgun>().currentAmmo -= 1;
+            CurrentW.currentAmmo -= 1;
 
-            Debug.Log("Éä±¬!,Ê£Óà×Óµ¯£º" + _transform.GetComponent<Shotgun>().currentAmmo);
+            Debug.Log("Current Ammon: " + _transform.GetComponent<Shotgun>().currentAmmo);
         }
         // TODO Delete Debug.Log
         return NodeState.SUCCESS;
