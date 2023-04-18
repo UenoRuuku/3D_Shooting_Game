@@ -38,7 +38,6 @@ public class EnemyController : BehaviorTree.Tree
         root.SetData("Weapon", weapon);
         root.SetData("AlertRange", alertRange);
         root.SetData("FOVRadius", fovRadius);
-        root.SetData("Waypoints", GameManager.instance.waypoints);
         root.SetData("WaypointRange", waypointRange);
         root.SetData("Speed", speed);
         root.SetData("Aggression", aggression);
