@@ -37,10 +37,10 @@ public class AssaultRifle : Weapon
 
             }
             Vector3 heightCorrectedPoint = new Vector3(point.x, transform.position.y, point.z);
-
-            bulletRb.velocity = (heightCorrectedPoint - firePoint.position) * shootForce;
+            Vector3 newVec = Quaternion.Euler(0,angleOffset,0)*heightCorrectedPoint;
+            bulletRb.velocity = (newVec - firePoint.position) * shootForce;
         }else{
-            
+            bulletRb.velocity = aiShootDir * shootForce;
         }
     }
 }
