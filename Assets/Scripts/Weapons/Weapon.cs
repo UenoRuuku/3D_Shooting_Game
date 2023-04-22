@@ -21,7 +21,7 @@ public abstract class Weapon : MonoBehaviour
     public bool isOwnedByPlayer = true;
 
     public Vector3 aiShootDir;
-    bool aiShoot = false;
+    public bool aiShoot = false;
 
     public float bestFireDistance;
     //public abstract float BestFireDistance { get; }
@@ -51,9 +51,11 @@ public abstract class Weapon : MonoBehaviour
             Vector2 fireDirection = (mousePosition - (Vector2)firePoint.position).normalized;
             Shoot(fireDirection);
         }
-
-        UIUpdate.Instance.updateammo(currentAmmo);
-        UIUpdate.Instance.updatereloading(reloadTime);
+        if (ownerPlayer)
+        {
+            UIUpdate.Instance.updateammo(currentAmmo);
+            UIUpdate.Instance.updatereloading(reloadTime);
+        }
     }
     public void Reload()
     {

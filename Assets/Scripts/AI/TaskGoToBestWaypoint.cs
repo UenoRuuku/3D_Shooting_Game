@@ -10,17 +10,21 @@ public class TaskGoToBestWaypoint : Node
     private Transform _transform;
     private Animator _animator;
 
+    private Weapon CurrentW;
     public TaskGoToBestWaypoint(Transform transform)
     {
         _transform = transform;
         //_animator = transform.GetComponent<Animator>();
+
+        WeaponSwitcher w = _transform.GetComponent<WeaponSwitcher>();
+        CurrentW = w.GetCurrentWeapon();
     }
 
     public override NodeState Evaluate()
     {
         NavMeshAgent agent = _transform.GetComponent<NavMeshAgent>();
         Transform bestWaypoint = (Transform)GetData("BestWaypoint");
-
+        CurrentW.AiShootCommand(false);
         if (Vector3.Distance(_transform.position, bestWaypoint.position) > 1f)
         {
             //_transform.position = Vector3.MoveTowards(_transform.position, bestWaypoint.position, (float)GetData("Speed") * Time.deltaTime);

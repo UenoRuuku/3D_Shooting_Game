@@ -37,7 +37,6 @@ public class Sniper : Weapon
         }
         else
         {
-
             bulletRb.velocity = aiShootDir * shootForce;
         }
     }

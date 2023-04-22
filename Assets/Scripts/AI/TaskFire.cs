@@ -15,8 +15,6 @@ public class TaskFire : Node
         _transform = transform;
         WeaponSwitcher w = _transform.GetComponent<WeaponSwitcher>();
         CurrentW = w.GetCurrentWeapon();
-        CurrentW.aiShootDir = - _transform.position + GameObject.FindGameObjectWithTag("Player").transform.position;
-        CurrentW.AiShootCommand(true);
         //_animator = transform.GetComponent<Animator>();
     }
 
@@ -28,9 +26,11 @@ public class TaskFire : Node
         }
         else
         {
+            _transform.LookAt(GameObject.FindGameObjectWithTag("Player").transform.position);
             //_transform.GetComponent<Shotgun>().Shoot(new Vector2(_transform.forward.x, _transform.forward.z));
-            CurrentW.currentAmmo -= 1;
-
+            //CurrentW.currentAmmo -= 1;
+            CurrentW.aiShootDir = -_transform.position + GameObject.FindGameObjectWithTag("Player").transform.position;
+            CurrentW.AiShootCommand(true);
             Debug.Log("AI Shoot");// + _transform.GetComponent<Shotgun>().currentAmmo);
         }
         // TODO Delete Debug.Log1
